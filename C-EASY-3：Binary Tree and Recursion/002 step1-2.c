@@ -47,16 +47,16 @@ void set_root(SeqBiTree *tree, int value)
     tree->nodes[0].used=true;
     tree->size=0;
 }
-void set_left_child(SeqBiTree *tree, int parent_node, int value)
+void set_left_child(SeqBiTree *tree, int parent_node, int value)//把整棵树传入 把当前节点传入 把数值传入
 {
-    if(parent_node*2+1>=MAX_TREE_SIZE||tree->nodes[parent_node].used==false||tree->nodes[parent_node*2+1].used==true)
+    if(parent_node*2+1>=MAX_TREE_SIZE||tree->nodes[parent_node].used==false||tree->nodes[parent_node*2+1].used==true)//判断当前节点是否超出树的最大节点 当前节点是否使用 左/右节点是否使用（否则会导致树断开或越界）
     {
         printf("Error");
     }
     else
     {
         tree->nodes[parent_node*2+1].used=true;
-        tree->nodes[parent_node*2+1].data=value;
+        tree->nodes[parent_node*2+1].data=value;//数学规律
         tree->size=parent_node*2+1;
     }
 }
@@ -74,26 +74,26 @@ void set_right_child(SeqBiTree *tree, int parent_node, int value)
     }
     
 }
-void level_order(SeqBiTree *tree)
+void level_order(SeqBiTree *tree)//打印
 {
     int eachline=1;
-    int changenumber=0;
+    int changenumber=0;//换行数
     int level=0;
     for(int i=0;i<tree->size+1;i++)
     {
         if(tree->nodes[i].used==true)
         {
-            printf("%d ",tree->nodes[i].data);
+            printf("%d ",tree->nodes[i].data);//打印
         }
         else
         {
-            printf("-1 ");
+            printf("-1 ");//空则打印-1
         }
         if(i==changenumber)
         {
             printf("\n");
             eachline*=2;
-            changenumber+=eachline;
+            changenumber+=eachline;//换行打印
         }
     }
     
