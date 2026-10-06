@@ -105,6 +105,7 @@ int main()
     int total=shift_number+4;
     char *Need_normalized_number=(char*)malloc((total+1)*sizeof(char));
     char *Newnormalized_number=(char*)malloc((total+1)*sizeof(char));
+    char *temp=(char*)malloc((total+1)*sizeof(char));
     memset(Need_normalized_number,'0',total+1);
     memset(Newnormalized_number,'0',total+1);
     int carry=binary_add(Newsignificand_1,Newsignificand_2,Need_normalized_number+1,shift_number+4);
@@ -123,14 +124,19 @@ int main()
 
     if(carry)
     {
-        
-        memcpy(Newnormalized_number,Need_normalized_number,total+1);
+        /*memcpy(temp,Need_normalized_number,total+1);
+        for(int i=0;i<total;i++)
+        {
+            Need_normalized_number[i+1]=temp[i];
+        }
+        Need_normalized_number[0]=0;*/
+        memcpy(Newnormalized_number,Need_normalized_number+1,total);
         char one[4]={'0','0','0','1'};
         binary_add(max_exponent,one,Newexponent,4);
     }
     else
     {
-        memcpy(Newnormalized_number,Need_normalized_number,total+1);
+        memcpy(Newnormalized_number,Need_normalized_number,total);
         memcpy(Newexponent,max_exponent,4);
     }
 
@@ -142,11 +148,11 @@ int main()
     }
     for(int i=0;i<3;i++)
     {
-        Newfpnumber[5+i]=Newnormalized_number[1+i];    
+        Newfpnumber[5+i]=Newnormalized_number[i];    
     }
     Newfpnumber[8]='\0';
 
-    /*printf("Newsignificand_1:");
+    printf("Newsignificand_1:");
     for(int i=0;i<total;i++)
     {
         printf("%c",Newsignificand_1[i]);
@@ -177,7 +183,7 @@ int main()
         printf("%c",Newexponent[i]);
     }
     printf("\n");
-    */
+    
     printf("%s",Newfpnumber);
 }
 
