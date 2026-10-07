@@ -31,3 +31,13 @@ A2.2 "cd" "../../../var/backups/turing/" NULL
 
 ### 1.
 
+Q1.
+
+A1.
+
+#include <dirent.h>
+
+#include <sys/stat.h>
+
+#include <sys/types.h>
+
