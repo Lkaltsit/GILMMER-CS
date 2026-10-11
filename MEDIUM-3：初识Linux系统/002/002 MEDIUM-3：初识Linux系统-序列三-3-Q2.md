@@ -36,7 +36,7 @@ void headadd(List *list,const char *name)
 
 void mypwd(const char *path)
 {
-    Dir *dir=opendir(path);
+    DIR *dir=opendir(path);
     if(dir==NULL)
     {
         perror("opendir");
@@ -51,7 +51,7 @@ void mypwd(const char *path)
     while(get_inode(".")!=get_inode(".."))
     {
         chdir("..");
-        Dir *dir_parent=opendir(".");
+        DIR *dir_parent=opendir(".");
         if(dir_parent==NULL)
         {
             perror("opendir");

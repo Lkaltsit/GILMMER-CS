@@ -1,4 +1,4 @@
-
+```c
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
@@ -28,6 +28,14 @@ void find_file(const char *current_path, const char *target_name) {
 
         // 请补全代码写在 TO DO 与 END OF TO DO 之间：
         // 要求：
+        if(strcmp(entry->d_name,target_name)==0)
+        {
+            printf("%s\n",full_path);
+        }
+        if((statbuf.st_mode & S_IFMT) == S_IFDIR)
+        {
+            find_file(full_path,target_name);
+        }
         // 1. 检查当前 entry 的文件名是否与 target_name 匹配，若匹配则打印 full_path。
         // 2. 如果当前 entry 是一个目录，则需要对其进行深度优先的递归查找。
         // （提示：若(statbuf.st_mode & S_IFMT) == S_IFDIR则statbuf为目录文件）
@@ -39,3 +47,4 @@ void find_file(const char *current_path, const char *target_name) {
     }
     closedir(dir);
 }
+```
