@@ -1,3 +1,4 @@
+```c
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -46,7 +47,10 @@ void translate_address(uint32_t virtual_address, bool is_write_access) {//请你
     // 利用位运算（移位 >> 和 掩码 &）提取对应部分
     // 请补全代码写在TO DO与END OF TO DO之间：
     // TO DO:
-
+    offset=virtual_address&(PAGE_SIZE-1);
+    page_table_index=(virtual_address>>OFFSET_BITS)&(PAGE_TABLE_SIZE-1);
+    page_dir_index=(virtual_address>>(PAGE_TABLE_BITS+OFFSET_BITS))&(PAGE_DIR_SIZE-1);
+    
 
     // END OF TO DO：
 
@@ -57,29 +61,54 @@ void translate_address(uint32_t virtual_address, bool is_write_access) {//请你
     // --- 步骤2: 查询页目录表 ---
     // 请补全代码写在TO DO与END OF TO DO之间：
     // TO DO:
-
-
+    printf("  [*] Checking Page Directory Entry %d...\n",page_dir_index);
+    if(!page_directory[page_dir_index].present_bit)
+    {
+        printf("  [!] FAULT: Page Directory Entry not present. (Segmentation Fault)\n");
+        return;
+    }
+    PTE *pte=page_directory[page_dir_index].page_table_base;
+    printf("      -> PDE is present. Page table base address: %p\n",(void*)pte);
+    
     // END OF TO DO：
 
     // --- 步骤3: 查询页表 ---
     // 请补全代码写在TO DO与END OF TO DO之间：
     // TO DO:
 
-
+    printf("  [*] Checking Page Table Entry %d...\n",page_table_index);
+    if(!pte[page_table_index].present_bit)
+    {
+        printf("  [!] FAULT: Page Table Entry not present. (Page Fault)\n");
+        return;
+    }
+    uint32_t PFN=pte[page_table_index].frame_number;
+    int is_allowed=pte[page_table_index].rw_bit;
+    printf("      -> PTE is present. Frame number:%d\n",PFN);
+    
     // END OF TO DO：
+
+    
+    printf("  [*] Checking access permissions...\n");
 
     // --- 步骤4: 检查访问权限 ---
     // 请补全代码写在TO DO与END OF TO DO之间：
     // TO DO:
-
-
+    if(!is_allowed&&is_write_access)
+    {
+        printf("  [!] FAULT: Write attempt on a read-only page. (Protection Fault)\n");
+        return;
+    }    
+    printf("      -> Access granted.\n");
     // END OF TO DO：
-    printf("  [*] Checking access permissions...\n");
+    
 
     // --- 步骤5: 计算最终的物理地址 ---
     // 请补全代码写在TO DO与END OF TO DO之间：
     // TO DO:
 
+    uint32_t physical_address=(PFN<<OFFSET_BITS)|offset;
+   
 
     // END OF TO DO：
     printf("  [SUCCESS] Translation complete.\n");
@@ -242,3 +271,4 @@ Translating Virtual Address: 0x00804000 (READ access)
   [*] Checking Page Directory Entry 2...
   [!] FAULT: Page Directory Entry not present. (Segmentation Fault)
 */
+```
