@@ -195,7 +195,7 @@ A1.没有限制获取长度 会导致溢出覆盖掉返回地址 统称为缓冲
 
 Q2.骇客的艺术在于计算。假设你已经查出 grant_access 函数在内存中的起始地址为 0x401156,为了让函数 verify_identity 结束后不返回main，而是直接跳转到 grant_access，你的输入字符串在结构上应该如何构造
 
-A2.AAAAAAAAAAAAAAAA + AAAAAAAA + \x56\x11\x40\x00\x00\x00\x00\x00 ()
+A2.AAAAAAAAAAAAAAAA + AAAAAAAA + \x56\x11\x40\x00\x00\x00\x00\x00 (这里一开始忽视了小端的写法 在这里这么写是因为编译器等可以直接根据\x翻译为二进制)
 
 ### 3.
 
